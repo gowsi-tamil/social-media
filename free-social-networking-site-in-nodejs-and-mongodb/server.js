@@ -21,16 +21,17 @@ app.set("view engine", "ejs");
 var socketIO = require("socket.io")(http);
 var socketID = "";
 var users = [];
+const port =process.env.PORT || 3000
 
-var mainURL = "http://localhost:3000";
-
+//var mainURL = "http://localhost:3000";
+var mainURL = "http://localhost:"+port;
 socketIO.on("connection", function (socket) {
 	console.log("User connected", socket.id);
 	socketID = socket.id;
 });
 
-http.listen(3000, function () {
-	console.log("Server started at " + mainURL);
+app.listen(port, function () {
+	 console.log("Server started at " + mainURL);
 
 	mongoClient.connect("mongodb://localhost:27017", function (error, client) {
 		var database = client.db("my_social_network");
@@ -232,7 +233,7 @@ http.listen(3000, function () {
 									result.json({
 										"status": "status",
 										"message": "Cover photo has been updated.",
-										data: mainURL + "/" + coverPhoto
+										data:  "/" + coverPhoto
 									});
 								});
 	                        });
@@ -297,7 +298,7 @@ http.listen(3000, function () {
 									result.json({
 										"status": "status",
 										"message": "Profile image has been updated.",
-										data: mainURL + "/" + profileImage
+										data: "/" + profileImage
 									});
 								});
 	                        });
